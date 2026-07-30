@@ -50,41 +50,41 @@ const formatCNPJ = (val: string) => {
 export default function PerfilPage() {
   // Estado do Usuário Cadastrado
   const [person, setPerson] = useState({
-    nomeCompleto: "Dalton Pereira",
-    email: "dalton@infortech.com.br",
-    telefone: "(96) 99100-0000",
+    nomeCompleto: "Nome do Usuário",
+    email: "usuario@empresa.com.br",
+    telefone: "",
   });
 
   // Estado da Empresa
   const [company, setCompany] = useState({
-    cnpj: "39.335.069/0001-01",
-    razao_social: "INFOR TECH SOLUCOES (DALTON A. B. PEREIRA)",
-    nome_fantasia: "INFOR TECH SOLUCOES",
-    inscricao_estadual: "Isento",
-    cep: "68900-000",
-    logradouro: "AL LAGOA DAS GARCAS",
-    numero: "71",
-    complemento: "CASA",
-    bairro: "ALVORADA",
-    municipio: "MACAPA",
-    uf: "AP",
+    cnpj: "",
+    razao_social: "",
+    nome_fantasia: "",
+    inscricao_estadual: "",
+    cep: "",
+    logradouro: "",
+    numero: "",
+    complemento: "",
+    bairro: "",
+    municipio: "",
+    uf: "",
   });
 
   // Estado do Responsável Legal (Empresário / Sócio)
   const [legalResp, setLegalResp] = useState({
-    nome: "Dalton Abdon B. Pereira",
-    cpf: "000.000.000-00",
-    rg: "123456-AP",
-    cargo: "Sócio-Administrador / Proprietário",
+    nome: "",
+    cpf: "",
+    rg: "",
+    cargo: "",
   });
 
   // Estado dos Dados Bancários
   const [bank, setBank] = useState({
     banco: "001 — Banco do Brasil S.A.",
-    agencia: "3443-6",
-    conta: "105432-8",
+    agencia: "",
+    conta: "",
     tipoConta: "Conta Corrente Pessoa Jurídica",
-    chavePix: "39.335.069/0001-01",
+    chavePix: "",
   });
 
   // Sócios encontrados na consulta de CNPJ (se houver)

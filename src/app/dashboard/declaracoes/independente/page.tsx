@@ -4,24 +4,24 @@ import React, { useState, useEffect } from "react";
 
 export default function DeclaraIndependentePage() {
   const [company, setCompany] = useState({
-    razaoSocial: "INFOR TECH SOLUCOES (DALTON A. B. PEREIRA)",
-    cnpj: "39.335.069/0001-01",
-    endereco: "AL LAGOA DAS GARCAS, Nº 71, CASA - ALVORADA, MACAPA / AP",
+    razaoSocial: "Razão Social da Empresa",
+    cnpj: "00.000.000/0001-00",
+    endereco: "Endereço da Empresa",
   });
 
   const [legalResp, setLegalResp] = useState({
-    nome: "Dalton Abdon B. Pereira",
+    nome: "Nome do Responsável Legal",
     cpf: "000.000.000-00",
     rg: "",
     cargo: "Sócio-Administrador",
   });
 
   const [proposal, setProposal] = useState({
-    numPregao: "PE 15/2023",
-    orgao: "Ministério da Saúde - Coordenação Geral de Logística",
+    numPregao: "PE 01/2026",
+    orgao: "Órgão Licitante",
   });
 
-  const [cidadeData, setCidadeData] = useState("Macapá / AP");
+  const [cidadeData, setCidadeData] = useState("Brasília / DF");
   const [dataExtenso, setDataExtenso] = useState(
     new Date().toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })
   );
@@ -37,9 +37,9 @@ export default function DeclaraIndependentePage() {
       if (compRaw) {
         const parsed = JSON.parse(compRaw);
         setCompany({
-          razaoSocial: parsed.razao_social || parsed.nome_fantasia || "INFOR TECH SOLUCOES",
-          cnpj: parsed.cnpj || "39.335.069/0001-01",
-          endereco: parsed.logradouro ? `${parsed.logradouro}, ${parsed.numero} - ${parsed.bairro}, ${parsed.municipio}/${parsed.uf}` : "AL LAGOA DAS GARCAS, Nº 71, CASA - ALVORADA, MACAPA / AP",
+          razaoSocial: parsed.razao_social || parsed.nome_fantasia || "Razão Social da Empresa",
+          cnpj: parsed.cnpj || "00.000.000/0001-00",
+          endereco: parsed.logradouro ? `${parsed.logradouro}, ${parsed.numero} - ${parsed.bairro}, ${parsed.municipio}/${parsed.uf}` : "Endereço da Empresa",
         });
 
         if (parsed.municipio && parsed.uf) {
@@ -61,7 +61,7 @@ export default function DeclaraIndependentePage() {
       }
 
       setLegalResp({
-        nome: respNome || "Dalton Abdon B. Pereira",
+        nome: respNome || "Nome do Responsável Legal",
         cpf: respCpf || "000.000.000-00",
         rg: respRg,
         cargo: respCargo || "Sócio-Administrador",

@@ -16,9 +16,9 @@ function DeclaracoesContent() {
   });
 
   const [companyData, setCompanyData] = useState<any>({
-    razaoSocial: "INFOR TECH SOLUCOES (DALTON A. B. PEREIRA)",
-    cnpj: "39.335.069/0001-01",
-    endereco: "AL LAGOA DAS GARCAS, Nº 71, CASA - ALVORADA, MACAPA / AP",
+    razaoSocial: "Razão Social da Empresa",
+    cnpj: "00.000.000/0001-00",
+    endereco: "Endereço da Empresa",
   });
 
   useEffect(() => {
@@ -27,9 +27,9 @@ function DeclaracoesContent() {
       if (savedGeneral) {
         const parsed = JSON.parse(savedGeneral);
         setGeneralData({
-          numPregao: parsed.numPregao || "PE 15/2023",
-          orgao: parsed.orgao || "Ministério da Saúde",
-          uasg: parsed.uasg || "160045",
+          numPregao: parsed.numPregao || "PE 01/2026",
+          orgao: parsed.orgao || "Órgão Licitante",
+          uasg: parsed.uasg || "000000",
         });
       }
 
@@ -37,9 +37,9 @@ function DeclaracoesContent() {
       if (companyOnboarding) {
         const parsedComp = JSON.parse(companyOnboarding);
         setCompanyData({
-          razaoSocial: parsedComp.razao_social || parsedComp.nome_fantasia || "INFOR TECH SOLUCOES",
-          cnpj: parsedComp.cnpj || "39.335.069/0001-01",
-          endereco: parsedComp.logradouro ? `${parsedComp.logradouro}, ${parsedComp.numero} - ${parsedComp.bairro}, ${parsedComp.municipio}/${parsedComp.uf}` : "AL LAGOA DAS GARCAS, Nº 71, CASA - ALVORADA, MACAPA / AP",
+          razaoSocial: parsedComp.razao_social || parsedComp.nome_fantasia || "Razão Social da Empresa",
+          cnpj: parsedComp.cnpj || "00.000.000/0001-00",
+          endereco: parsedComp.logradouro ? `${parsedComp.logradouro}, ${parsedComp.numero} - ${parsedComp.bairro}, ${parsedComp.municipio}/${parsedComp.uf}` : "Endereço da Empresa",
         });
       }
     } catch (e) {

@@ -117,12 +117,6 @@ export default function OnboardingPage() {
     executeSearch(cnpj);
   };
 
-  const handleFillDemoCnpj = () => {
-    const demoCnpj = "39.335.069/0001-01";
-    setCnpj(demoCnpj);
-    executeSearch(demoCnpj);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     router.push("/register");
@@ -170,13 +164,6 @@ export default function OnboardingPage() {
             <div className="flex flex-col gap-xs">
               <label className="font-label-sm text-label-sm text-[#1e3a8a] flex items-center justify-between" htmlFor="cnpj">
                 <span className="font-semibold">CNPJ da Empresa</span>
-                <button 
-                  type="button" 
-                  onClick={handleFillDemoCnpj}
-                  className="text-xs text-primary underline hover:text-primary-dark font-medium"
-                >
-                  ⚡ Testar com Meu CNPJ (39.335.069/0001-01)
-                </button>
               </label>
               <div className="relative w-full">
                 <input 
