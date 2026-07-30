@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               String    @id @default(uuid())
+  email            String    @unique
+  passwordHash     String
+  name             String?
+  cnpj             String?   @unique
+  razaoSocial      String?
+  nomeFantasia     String?
+  naturezaJuridica String?
+  porte            String?
+  dataAbertura     String?
+  telefone         String?
+  cnaePrincipal    String?
+  cnaesSecundarios String?
+  endereco         String?
+  banco            String?
+  agencia          String?
+  conta            String?
+  termsAccepted    Boolean   @default(false)
+  role             String    @default("USER")
+  planStatus       String    @default("FREE")
+  credits          Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  proposals        Proposal[]
+  subscriptions    Subscription[]
+}
+
+model Proposal {
+  id                  String    @id @default(uuid())
+  userId              String
+  user                User      @relation(fields: [userId], references: [id])
+  numPregao           String?
+  numProcesso         String?
+  orgao               String?
+  dataSessaoPublica   DateTime?
+  validadeDias        Int?
+  prazoEntregaDias    Int?
+  status              String    @default("DRAFT")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  items               ProposalItem[]
+  checklist           Checklist?
+}
+
+model ProposalItem {
+  id               String    @id @default(uuid())
+  proposalId       String
+  proposal         Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  descricao        String
+  marcaModelo      String?
+  quantidade       Int
+  valorUnitario    Float
+  valorTotal       Float
+  confidenceScore  String?
+  extractionSource String    @default("MANUAL")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  marginCalculation MarginCalculation?
+}
+
+model MarginCalculation {
+  id                  String    @id @default(uuid())
+  itemId              String    @unique
+  item                ProposalItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  custoBase           Float
+  aliquotaImposto     Float
+  frete               Float
+  taxas               Float
+  difalSt             Float
+  jurosBancarios      Float
+  margemLucro         Float
+  precoSugerido       Float
+  lucroLiquido        Float
+  exequibilidadeStatus String   @default("GREEN")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model Subscription {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  externalId  String?
+  status      String
+  validUntil  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Checklist {
+  id                  String    @id @default(uuid())
+  proposalId          String    @unique
+  proposal            Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  
+  sicaf               Boolean   @default(false)
+  certidaoFederal     Boolean   @default(false)
+  certidaoEstadual    Boolean   @default(false)
+  certidaoMunicipal   Boolean   @default(false)
+  certidaoTrabalhista Boolean   @default(false)
+  certidaoFgts        Boolean   @default(false)
+  balancoPatrimonial  Boolean   @default(false)
+  
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}

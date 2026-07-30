@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Cadastro - Destrava Proposta Gov</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "secondary": "#006c49",
+                        "on-tertiary-container": "#ef9900",
+                        "inverse-surface": "#2f3036",
+                        "on-secondary-container": "#00714d",
+                        "outline": "#757682",
+                        "surface": "#faf8ff",
+                        "on-primary-container": "#90a8ff",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1b21",
+                        "surface-bright": "#faf8ff",
+                        "background": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#444651",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#dce1ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e3e1e9",
+                        "on-primary-fixed-variant": "#264191",
+                        "outline-variant": "#c5c5d3",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-dim": "#dad9e1",
+                        "on-surface": "#1a1b21",
+                        "primary": "#00236f",
+                        "on-primary-fixed": "#00164e",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-high": "#e9e7ef",
+                        "surface-container-low": "#f4f3fa",
+                        "secondary-fixed-dim": "#4edea3",
+                        "tertiary": "#3e2400",
+                        "secondary-container": "#6cf8bb",
+                        "primary-container": "#1e3a8a",
+                        "surface-container": "#eeedf4",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-secondary-fixed": "#002113",
+                        "surface-tint": "#4059aa",
+                        "inverse-on-surface": "#f1f0f7",
+                        "inverse-primary": "#b6c4ff",
+                        "surface-container-highest": "#e3e1e9",
+                        "tertiary-container": "#5c3800",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "sm": "12px",
+                        "container-max": "1280px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col">
+<!-- Fixed Header (TopAppBar variant for Onboarding) -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface shadow-sm px-md py-sm flex flex-col gap-sm">
+<div class="flex justify-between items-center w-full">
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="font-headline-md text-headline-md-mobile font-bold tracking-tight">Destrava Proposta Gov</span>
+</div>
+</div>
+<!-- Progress Bar Indicator -->
+<div class="w-full flex flex-col gap-xs">
+<div class="flex justify-between items-center w-full">
+<span class="font-label-sm text-label-sm text-on-surface">Cadastro do Licitante</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Passo 1 de 3</span>
+</div>
+<div class="w-full bg-surface-variant h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-300" style="width: 33.33%;"></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 pt-[104px] px-md pb-lg flex flex-col">
+<!-- Central White Card -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0_4px_20px_rgba(31,41,55,0.05)] border border-outline-variant/20 flex-1 flex flex-col max-w-[500px] w-full mx-auto">
+<div class="mb-lg">
+<h1 class="font-headline-md text-headline-md-mobile text-on-surface mb-xs">Dados de Acesso</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Insira suas informações pessoais para criar sua credencial de acesso ao sistema.</p>
+</div>
+<!-- Form Passo 1 -->
+<form class="flex flex-col gap-md flex-1">
+<!-- Nome Completo -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface" for="nome">Nome completo</label>
+<input class="w-full h-12 px-3 border border-outline rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant" id="nome" placeholder="Ex: João da Silva" type="text">
+</div>
+<!-- Email -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface" for="email">E-mail corporativo</label>
+<input class="w-full h-12 px-3 border border-outline rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant" id="email" placeholder="joao@empresa.com.br" type="email">
+</div>
+<!-- Senha -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface" for="senha">Senha</label>
+<div class="relative w-full">
+<input class="w-full h-12 px-3 pr-10 border border-outline rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant" id="senha" placeholder="••••••••" type="password">
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline-variant hover:text-on-surface transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined" style="font-size: 20px;">visibility_off</span>
+</button>
+</div>
+<!-- Strength Meter -->
+<div class="flex flex-col gap-1 mt-1">
+<div class="flex gap-1 w-full h-1.5">
+<div class="flex-1 bg-error rounded-full"></div>
+<div class="flex-1 bg-surface-variant rounded-full"></div>
+<div class="flex-1 bg-surface-variant rounded-full"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">A senha deve conter no mínimo 8 caracteres, números e símbolos.</span>
+</div>
+</div>
+<!-- Confirmar Senha -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface" for="confirmar_senha">Confirmar senha</label>
+<input class="w-full h-12 px-3 border border-outline rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant" id="confirmar_senha" placeholder="••••••••" type="password">
+</div>
+<!-- Submit Button Area -->
+<div class="mt-auto pt-lg">
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all" type="button">
+                        Continuar
+                        <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</main>
+<!-- Bottom Nav Bar deliberately suppressed for Onboarding Flow -->
+</body></html>
+
+<!-- Cadastro - Onboarding -->

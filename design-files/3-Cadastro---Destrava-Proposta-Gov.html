@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cadastro - Destrava Proposta Gov</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "secondary": "#006c49",
+                        "on-tertiary-container": "#ef9900",
+                        "inverse-surface": "#2f3036",
+                        "on-secondary-container": "#00714d",
+                        "outline": "#757682",
+                        "surface": "#faf8ff",
+                        "on-primary-container": "#90a8ff",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1b21",
+                        "surface-bright": "#faf8ff",
+                        "background": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#444651",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#dce1ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e3e1e9",
+                        "on-primary-fixed-variant": "#264191",
+                        "outline-variant": "#c5c5d3",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-dim": "#dad9e1",
+                        "on-surface": "#1a1b21",
+                        "primary": "#00236f",
+                        "on-primary-fixed": "#00164e",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-high": "#e9e7ef",
+                        "surface-container-low": "#f4f3fa",
+                        "secondary-fixed-dim": "#4edea3",
+                        "tertiary": "#3e2400",
+                        "secondary-container": "#6cf8bb",
+                        "primary-container": "#1e3a8a",
+                        "surface-container": "#eeedf4",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-secondary-fixed": "#002113",
+                        "surface-tint": "#4059aa",
+                        "inverse-on-surface": "#f1f0f7",
+                        "inverse-primary": "#b6c4ff",
+                        "surface-container-highest": "#e3e1e9",
+                        "tertiary-container": "#5c3800",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "8": "8px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "sm": "12px",
+                        "container-max": "1280px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col">
+<!-- Fixed Header (TopAppBar variant for Onboarding) -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface shadow-sm px-md py-sm flex flex-col gap-sm">
+<div class="flex justify-between items-center w-full">
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="font-headline-md text-headline-md-mobile font-bold tracking-tight">Destrava Proposta Gov</span>
+</div>
+<button class="text-on-surface-variant font-label-md hover:text-primary transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[18px]">logout</span> Sair
+</button>
+</div>
+<!-- Progress Bar Indicator -->
+<div class="w-full flex flex-col gap-xs">
+<div class="flex justify-between items-center w-full">
+<span class="font-label-sm text-label-sm text-on-surface">Dados da Empresa</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Passo 1 de 3</span>
+</div>
+<div class="w-full bg-surface-variant h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-300" style="width: 33.33%;"></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 pt-[104px] px-md pb-lg flex flex-col">
+<!-- Central White Card -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0_4px_20px_rgba(31,41,55,0.05)] border border-outline-variant/20 flex-1 flex flex-col max-w-[500px] w-full mx-auto">
+<div class="mb-lg">
+<h1 class="font-headline-md text-headline-md-mobile text-on-surface mb-xs">Busca de CNPJ</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Digite seu CNPJ e buscaremos automaticamente os dados cadastrais na Receita Federal.</p>
+</div>
+<!-- Form Passo 1 -->
+<form class="flex flex-col gap-md flex-1">
+<!-- CNPJ Search -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="cnpj">
+    CNPJ da Empresa
+</label>
+<div class="relative w-full">
+<input class="w-full h-12 px-3 pr-10 border-2 border-primary rounded-8 bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant font-semibold tracking-widest" id="cnpj" placeholder="00.000.000/0001-00" type="text" value="12.345.678/0001-90"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none">search</span>
+</div>
+<button class="mt-2 w-full bg-[#1e3a8a] text-on-primary font-label-md text-label-md py-3 px-4 rounded-8 flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all" type="button">
+                        Buscar dados da empresa
+</button>
+</div>
+<!-- Success State Representation -->
+<div class="bg-[#e6f4ea] border border-[#34a853]/30 rounded-8 p-3 flex items-start gap-2 mt-2">
+<span class="material-symbols-outlined text-[#34a853]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-[#137333]">Empresa encontrada! Revise os dados abaixo.</span>
+</div>
+<!-- Benefit Banner for ME/EPP -->
+<div class="bg-secondary-container/30 border border-secondary/20 rounded-8 p-3 flex flex-col gap-2 mt-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<p class="font-body-sm text-on-secondary-container flex-1">
+    Sua empresa é Microempresa (ME). Você tem direito a benefícios em licitações (Lei Complementar 123/2006).
+</p>
+</div>
+<button class="text-secondary font-label-sm hover:underline self-start ml-8" type="button">Saber mais</button>
+</div>
+<!-- Company Data -->
+<div class="flex flex-col gap-sm mt-2">
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="razao_social">
+            Razão Social
+            <span class="bg-[#dce1ff] text-[#1e3a8a] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Receita Federal</span>
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="razao_social" type="text" value="TECH SOLUTIONS LTDA"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="nome_fantasia">
+            Nome Fantasia
+            <span class="bg-[#dce1ff] text-[#1e3a8a] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Receita Federal</span>
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="nome_fantasia" type="text" value="Tech Solutions"/>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="natureza_juridica">
+    Natureza Jurídica
+    <span class="bg-[#dce1ff] text-[#1e3a8a] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Receita Federal</span>
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="natureza_juridica" type="text" value="206-2"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="porte">
+    Porte da Empresa
+    <span class="bg-[#dce1ff] text-[#1e3a8a] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Receita Federal</span>
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="porte" type="text" value="ME"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="data_abertura">
+    Data de Abertura
+    <span class="bg-[#dce1ff] text-[#1e3a8a] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Receita Federal</span>
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="data_abertura" type="text" value="15/03/2018"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="cnae">
+    Atividade Principal (CNAE)
+    <span class="bg-[#dce1ff] text-[#1e3a8a] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Receita Federal</span>
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="cnae" type="text" value="62.01-5-01 - Desenvolvimento de programas de computador"/>
+</div>
+</div>
+<!-- Contact Data -->
+<div class="flex flex-col gap-sm mt-4 pt-4 border-t border-outline-variant/30">
+<h3 class="font-label-md text-on-surface mb-2">Contato</h3>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="telefone">
+            Telefone
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant" id="telefone" placeholder="(00) 00000-0000" type="tel"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="email">
+            E-mail da empresa
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant" id="email" placeholder="contato@empresa.com.br" type="email"/>
+</div>
+</div>
+<!-- Address Data -->
+<div class="flex flex-col gap-sm mt-4 pt-4 border-t border-outline-variant/30">
+<h3 class="font-label-md text-on-surface mb-2">Endereço</h3>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a] flex items-center gap-2" for="cep">
+            CEP
+            <span class="bg-[#dce1ff] text-[#1e3a8a] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Receita Federal</span>
+</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="cep" type="text" value="01001-000"/>
+</div>
+<div class="grid grid-cols-3 gap-md">
+<div class="col-span-2 flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a]" for="rua">Rua</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="rua" type="text" value="Praça da Sé"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a]" for="numero">Número</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant" id="numero" placeholder="Ex: 123" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a]" for="complemento">Complemento</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="complemento" type="text" value="Lado ímpar"/>
+</div>
+<div class="grid grid-cols-3 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a]" for="bairro">Bairro</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="bairro" type="text" value="Sé"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a]" for="cidade">Cidade</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="cidade" type="text" value="São Paulo"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-[#1e3a8a]" for="estado">Estado</label>
+<input class="w-full h-12 px-3 border border-outline rounded-8 bg-surface-container-low text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant cursor-not-allowed" disabled="" id="estado" type="text" value="SP"/>
+</div>
+</div>
+</div>
+<!-- Submit Button Area -->
+<div class="mt-auto pt-lg flex flex-col gap-3">
+<div class="flex gap-md">
+<button class="flex-1 bg-surface-container text-on-surface font-label-md text-label-md py-3 px-4 rounded-8 flex items-center justify-center gap-2 hover:bg-surface-variant active:scale-[0.98] transition-all border border-outline-variant/50" type="button">
+<span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span>
+                        Voltar
+</button>
+<button class="flex-1 bg-[#1e3a8a] text-on-primary font-label-md text-label-md py-3 px-4 rounded-8 flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all" type="button">
+                        Continuar
+                        <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+</button>
+</div>
+<p class="text-center font-label-sm text-outline flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px]">cloud_done</span> Rascunho salvo automaticamente
+</p>
+</div>
+</form>
+</div>
+</main>
+<!-- Bottom Nav Bar deliberately suppressed for Onboarding Flow -->
+</body></html>
+
+<!-- Cadastro - Dados da Empresa (ME/EPP) -->

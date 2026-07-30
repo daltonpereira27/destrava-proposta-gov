@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Destrava Proposta Gov - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "secondary": "#006c49",
+                        "on-tertiary-container": "#ef9900",
+                        "inverse-surface": "#2f3036",
+                        "on-secondary-container": "#00714d",
+                        "outline": "#757682",
+                        "surface": "#faf8ff",
+                        "on-primary-container": "#90a8ff",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1b21",
+                        "surface-bright": "#faf8ff",
+                        "background": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#444651",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#dce1ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e3e1e9",
+                        "on-primary-fixed-variant": "#264191",
+                        "outline-variant": "#c5c5d3",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-dim": "#dad9e1",
+                        "on-surface": "#1a1b21",
+                        "primary": "#00236f",
+                        "on-primary-fixed": "#00164e",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-high": "#e9e7ef",
+                        "surface-container-low": "#f4f3fa",
+                        "secondary-fixed-dim": "#4edea3",
+                        "tertiary": "#3e2400",
+                        "secondary-container": "#6cf8bb",
+                        "primary-container": "#1e3a8a",
+                        "surface-container": "#eeedf4",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-secondary-fixed": "#002113",
+                        "surface-tint": "#4059aa",
+                        "inverse-on-surface": "#f1f0f7",
+                        "inverse-primary": "#b6c4ff",
+                        "surface-container-highest": "#e3e1e9",
+                        "tertiary-container": "#5c3800",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "sm": "12px",
+                        "container-max": "1280px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col justify-center items-center p-md md:bg-surface-container-low">
+<!-- Main Container -->
+<main class="w-full max-w-[400px] bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(31,41,55,0.05)] p-lg flex flex-col gap-lg border border-outline-variant md:p-xl">
+<!-- Header / Logo -->
+<div class="flex flex-col items-center text-center gap-xs">
+<div class="w-16 h-16 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container mb-xs">
+<span class="material-symbols-outlined text-[32px]">gavel</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Entrar</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Acesse o Destrava Proposta Gov</p>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-md" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="flex flex-col gap-base">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">mail</span>
+<input class="w-full pl-10 pr-sm py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline-variant" id="email" placeholder="seu@email.com" type="email">
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-base">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface" for="password">Senha</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline" href="#">Esqueci minha senha</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="w-full pl-10 pr-10 py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password">
+<button class="absolute right-sm top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full py-sm bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity active:scale-[0.98] mt-xs" type="submit">
+                Entrar
+            </button>
+</form>
+<!-- Divider -->
+<div class="relative flex items-center py-xs">
+<div class="flex-grow border-t border-outline-variant"></div>
+<span class="flex-shrink-0 mx-sm font-label-sm text-label-sm text-outline">ou</span>
+<div class="flex-grow border-t border-outline-variant"></div>
+</div>
+<!-- Social Login -->
+<div class="flex flex-col gap-sm">
+<button class="w-full py-sm px-sm bg-surface-container-lowest border border-outline-variant rounded-lg flex items-center justify-center gap-xs font-label-md text-label-md text-on-surface hover:bg-surface-variant transition-colors active:scale-[0.98]" type="button">
+<img class="w-5 h-5 object-contain" data-alt="A clean, minimalist vector icon of the Google 'G' logo, using precise geometric shapes and standard Google brand colors (blue, red, yellow, green) on a crisp white background. The style is modern, flat, and fits seamlessly into a high-end corporate UI design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCssFDwI6tVuRXJil7vuYTzcrsfoAmAG4G5DviEImRiB2MttgzCq2AutkItxodD6gKYv4buQyONIyaMamRDpF9Qt4_xEcbXwahQF0l52rS1m00ngWWbuEEskK4mLI9b0ZjHUoCIfxcykzQnhaiT24Wqf5r0F_Uo0IpiFvLn9qzlVgDZFRC0H5P3qr6_dncm2qNKy9OAVRQeS8gMfk5RHJFxurvyd1-6KQxv7ZSfEjObzhA_QoO0dhkJ">
+                Entrar com Google
+            </button>
+<button class="w-full py-sm px-sm bg-surface-container-lowest border border-outline-variant rounded-lg flex items-center justify-center gap-xs font-label-md text-label-md text-on-surface hover:bg-surface-variant transition-colors active:scale-[0.98]" type="button">
+<img class="w-5 h-5 object-contain" data-alt="A clean, minimalist vector icon of the Microsoft Windows logo, featuring four square panes in standard Microsoft brand colors (red, green, blue, yellow) on a crisp white background. The style is modern, flat, and fits seamlessly into a high-end corporate UI design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvyDJlUG0FGh8OJ2Jf4esU28WCCLLjCF7RGnflmO0suzfny5707zjeqm9bxeKehJwsR8DuYkGBR_V5QbaKtsp2RVlxfPR14VIs3UMxkZB3cbolEUTvc5Mhiwb4uDa5FGp8iYSxChiJF21hu0i5AoS8OzpykAoE_kFbisELzv1wJYQty-mY5HA1QCCssMiM9Z-PMX5sU3osxvavsTLAYTOf8ycPyKPcRYzlIaB_p_1plDhzIBxbJBf9">
+                Entrar com Microsoft
+            </button>
+</div>
+<!-- Sign Up Link -->
+<div class="text-center mt-xs">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Não tem conta? <a class="font-label-md text-label-md text-primary hover:underline" href="#">Cadastre-se</a>
+</p>
+</div>
+</main>
+</body></html>
+
+<!-- Login - Destrava Proposta Gov -->

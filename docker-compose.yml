@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # ========================================================
+  # SERVIÇO DA APLICAÇÃO (NEXT.JS)
+  # ========================================================
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: destrava_web
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3080}:3000"
+    environment:
+      - DATABASE_URL=postgresql://destrava_user:destrava_password@db:5432/destrava_db?schema=public
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - db
+    # labels: # Descomente para usar com Traefik
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.destrava.rule=Host(`seu-dominio.com.br`)"
+    #   - "traefik.http.routers.destrava.entrypoints=websecure"
+    #   - "traefik.http.routers.destrava.tls.certresolver=myresolver"
+
+  # ========================================================
+  # SERVIÇO DE BANCO DE DADOS (POSTGRESQL)
+  # ========================================================
+  db:
+    image: postgres:15-alpine
+    container_name: destrava_db
+    restart: always
+    environment:
+      POSTGRES_USER: destrava_user
+      POSTGRES_PASSWORD: destrava_password
+      POSTGRES_DB: destrava_db
+    # Não expomos a porta 5432 para o mundo (segurança) no VPS, 
+    # a aplicação "web" já consegue acessá-lo internamente pelo nome "db"
+    # ports:
+    #   - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ========================================================
+  # TRAEFIK (REVERSE PROXY + HTTPS) - COMENTADO PARA FUTURO
+  # ========================================================
+  # traefik:
+  #   image: traefik:v2.10
+  #   container_name: traefik
+  #   restart: unless-stopped
+  #   command:
+  #     - "--api.insecure=false"
+  #     - "--providers.docker=true"
+  #     - "--providers.docker.exposedbydefault=false"
+  #     - "--entrypoints.web.address=:80"
+  #     - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+  #     - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+  #     - "--entrypoints.websecure.address=:443"
+  #     - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+  #     - "--certificatesresolvers.myresolver.acme.email=seu-email@dominio.com"
+  #     - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  #     - "./letsencrypt:/letsencrypt"
+
+volumes:
+  postgres_data:
