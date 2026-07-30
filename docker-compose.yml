@@ -5,6 +5,7 @@ services:
   # SERVIÇO DA APLICAÇÃO (NEXT.JS)
   # ========================================================
   web:
+    image: destrava-web:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -23,9 +24,9 @@ services:
     #   - "traefik.http.routers.destrava.entrypoints=websecure"
     #   - "traefik.http.routers.destrava.tls.certresolver=myresolver"
 
-  # ========================================================
-  # SERVIÇO DE BANCO DE DADOS (POSTGRESQL)
-  # ========================================================
+    # ========================================================
+    # SERVIÇO DE BANCO DE DADOS (POSTGRESQL)
+    # ========================================================
   db:
     image: postgres:15-alpine
     container_name: destrava_db
@@ -40,7 +41,6 @@ services:
     #   - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
   # ========================================================
   # TRAEFIK (REVERSE PROXY + HTTPS) - COMENTADO PARA FUTURO
   # ========================================================
