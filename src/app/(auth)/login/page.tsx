@@ -49,6 +49,23 @@ export default function LoginPage() {
           <div><strong>E-mail:</strong> <code className="bg-surface-container px-1 py-0.5 rounded text-primary">piloto@destrava.com.br</code></div>
           <div><strong>Senha:</strong> <code className="bg-surface-container px-1 py-0.5 rounded text-primary">123456</code></div>
         </div>
+
+        {/* Card de Aviso LGPD / Versão de Teste */}
+        <div className="mt-2 bg-amber-50 border-2 border-amber-300 rounded-xl p-3.5 text-xs text-amber-950 text-left space-y-2 shadow-sm">
+          <div className="flex items-center gap-2 font-bold text-amber-900 text-xs">
+            <span className="material-symbols-outlined text-amber-600 text-base">warning</span>
+            Aviso Importante: Versão de Teste (Piloto)
+          </div>
+          <p className="text-[11px] leading-relaxed text-amber-900">
+            Olá! Muito obrigado por ajudar a testar nosso sistema. Por ser uma versão piloto, <strong>não insira dados pessoais reais</strong> (como CPF, telefone pessoal, endereço ou senhas pessoais).
+          </p>
+          <p className="text-[11px] leading-relaxed text-amber-900">
+            Use apenas dados públicos ou fictícios (CNPJ de empresas reais, e-mails fictícios ou nomes de mentira) em conformidade com a <strong>LGPD</strong>.
+          </p>
+          <div className="bg-amber-100/80 p-2 rounded-lg text-[11px] text-amber-900 font-medium">
+            💡 <strong>Dica extra:</strong> Para testes de cadastro, use e-mails genéricos como <code className="bg-amber-200/70 px-1 py-0.5 rounded text-amber-950 font-bold">teste@teste.com</code> ou e-mails temporários.
+          </div>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-md">

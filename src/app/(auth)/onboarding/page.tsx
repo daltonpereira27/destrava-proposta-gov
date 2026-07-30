@@ -154,6 +154,23 @@ export default function OnboardingPage() {
             <p className="font-body-sm text-body-sm text-on-surface-variant">Informe o CNPJ da sua empresa para buscarmos os dados oficiais da Receita Federal em tempo real.</p>
           </div>
 
+          {/* Card de Aviso LGPD / Versão de Teste */}
+          <div className="mb-4 bg-amber-50 border-2 border-amber-300 rounded-xl p-4 text-xs text-amber-950 text-left space-y-2 shadow-sm">
+            <div className="flex items-center gap-2 font-bold text-amber-900 text-xs">
+              <span className="material-symbols-outlined text-amber-600 text-base">warning</span>
+              ⚠️ Aviso Importante: Versão de Teste (Piloto)
+            </div>
+            <p className="text-[11px] leading-relaxed text-amber-900">
+              Olá! Muito obrigado por ajudar a testar nosso sistema. Por ser uma versão piloto, <strong>não insira dados pessoais reais</strong> (como CPF, telefone pessoal, endereço de casa ou senhas pessoais).
+            </p>
+            <p className="text-[11px] leading-relaxed text-amber-900">
+              Para testar se tudo funciona, por favor, use apenas <strong>dados públicos ou inventados</strong> (como CNPJ de empresas reais, e-mails fictícios ou nomes de mentira) em conformidade com a <strong>LGPD</strong>. Fique à vontade para explorar!
+            </p>
+            <div className="bg-amber-100/80 p-2.5 rounded-lg text-[11px] text-amber-900 font-medium">
+              💡 <strong>Dica extra:</strong> Para fazer testes de cadastro e login, use e-mails genéricos como <code className="bg-amber-200/70 px-1 py-0.5 rounded text-amber-950 font-bold">teste@teste.com</code> ou crie um e-mail temporário apenas para isso.
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="flex flex-col gap-md flex-1">
             {error && (
               <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 font-medium border border-red-200">
