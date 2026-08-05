@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import PageFeedbackWidget from "@/components/PageFeedbackWidget";
 
 export default function DashboardLayout({
   children,
@@ -10,6 +11,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const navItems = [
     { href: "/dashboard", icon: "dashboard", label: "Dashboard" },
@@ -22,16 +24,9 @@ export default function DashboardLayout({
 
   const [userName, setUserName] = useState("Dalton Pereira");
   const [userInitials, setUserInitials] = useState("DP");
-  const [acceptedWarning, setAcceptedWarning] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
 
-  const handleDenyAndExit = () => {
-    try {
-      localStorage.removeItem("destrava_user_person");
-    } catch (e) {}
-    window.location.href = "/login";
-  };
-
-  useEffect(() => {
+  const loadUser = () => {
     try {
       const personRaw = localStorage.getItem("destrava_user_person");
       if (personRaw) {
@@ -56,7 +51,42 @@ export default function DashboardLayout({
     } catch (e) {
       console.error("Erro ao carregar usuário no layout", e);
     }
+  };
+
+  useEffect(() => {
+    loadUser();
+    window.addEventListener("user_name_updated", loadUser);
+    return () => window.removeEventListener("user_name_updated", loadUser);
   }, []);
+
+  // TEMPORIZADOR DE INATIVIDADE DE 10 MINUTOS (600.000 ms)
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    const INACTIVITY_LIMIT_MS = 10 * 60 * 1000; // 10 Minutos
+
+    const resetTimer = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setSessionExpired(true);
+      }, INACTIVITY_LIMIT_MS);
+    };
+
+    // Eventos que resetam a inatividade
+    const events = ["mousemove", "keydown", "click", "touchstart", "scroll"];
+    events.forEach((evt) => window.addEventListener(evt, resetTimer));
+
+    resetTimer(); // Inicia o temporizador ao carregar
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      events.forEach((evt) => window.removeEventListener(evt, resetTimer));
+    };
+  }, []);
+
+  const handleConfirmSessionExit = () => {
+    setSessionExpired(false);
+    router.push("/login");
+  };
 
   const isItemActive = (href: string) => {
     if (href === "/dashboard") {
@@ -80,55 +110,93 @@ export default function DashboardLayout({
 
   return (
     <div className="bg-background text-on-background min-h-screen pb-24 md:pb-8 flex flex-col">
+      {/* MODAL DE SESSÃO EXPIRADA POR 10 MINUTOS DE INATIVIDADE */}
+      {sessionExpired && (
+        <div className="fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 max-w-md w-full border border-blue-200 shadow-2xl space-y-4 text-center">
+            <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto shadow-xs">
+              <span className="material-symbols-outlined text-3xl">timer_off</span>
+            </div>
+            <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">
+              Sessão Expirada por Inatividade
+            </h3>
+            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Você esteve inativo por <strong>10 minutos</strong>. Por motivos de segurança dos dados da sua empresa, a sessão foi temporariamente bloqueada.
+            </p>
+            <button
+              onClick={handleConfirmSessionExit}
+              className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm py-3.5 px-4 rounded-xl transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-base">lock_open</span>
+              <span>Reconectar ao Sistema</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* TopAppBar com navegação completa no Desktop e Mobile */}
       <header className="bg-surface dark:bg-on-background shadow-sm fixed top-0 left-0 w-full z-50 px-4 md:px-8 h-16 flex items-center justify-between border-b border-outline-variant/30">
         <div className="flex items-center gap-6">
-          <Link href="/dashboard" className="flex items-center gap-xs text-primary hover:opacity-80 transition-opacity">
-            <span 
-              className="material-symbols-outlined text-primary dark:text-primary-fixed-dim text-2xl"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              gavel
-            </span>
-            <span className="font-headline-md text-headline-md-mobile font-bold text-primary dark:text-primary-fixed-dim">
-              Destrava Proposta Gov
-            </span>
+          <Link href="/dashboard" className="flex items-center gap-2 text-primary hover:opacity-90 transition-opacity">
+            <div className="w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow-xs">
+              <span 
+                className="material-symbols-outlined text-xl"
+                style={{ fontVariationSettings: "'FILL' 1" }}
+              >
+                gavel
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-extrabold text-base md:text-lg tracking-tight text-blue-700 uppercase leading-none">
+                DESTRAVA PROPOSTA GOV
+              </span>
+              <span className="text-[9px] font-bold text-blue-600 tracking-wider">
+                VERSÃO 0.1 SAAS WHITE LABEL
+              </span>
+            </div>
           </Link>
 
-          {/* Navigation Links para Desktop */}
-          <nav className="hidden md:flex items-center gap-1">
+          {/* Links Principais no Desktop */}
+          <nav className="hidden md:flex items-center gap-1 ml-4">
             {navItems.map((item) => {
               const isActive = isItemActive(item.href);
               return (
                 <Link key={item.href} href={item.href}>
-                  <span className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
-                    isActive 
-                      ? "bg-primary/10 text-primary font-bold shadow-sm" 
-                      : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
-                  }`}>
-                    <span className="material-symbols-outlined text-[18px]">{item.icon}</span>
-                    {item.label}
-                  </span>
+                  <button
+                    className={`px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      isActive
+                        ? "bg-primary-container text-on-primary-container shadow-xs"
+                        : "text-on-surface-variant hover:bg-surface-variant/50 hover:text-on-surface"
+                    }`}
+                  >
+                    <span 
+                      className="material-symbols-outlined text-lg"
+                      style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
+                    >
+                      {item.icon}
+                    </span>
+                    <span>{item.label}</span>
+                  </button>
                 </Link>
               );
             })}
           </nav>
         </div>
 
-        {/* User Info & Actions */}
+        {/* Perfil e Ações no Topo */}
         <div className="flex items-center gap-3">
-          <Link href="/dashboard/perfil" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs border border-primary/20">
+          {/* Usuário logado */}
+          <div className="flex items-center gap-2.5 bg-surface-container-low px-3 py-1.5 rounded-full border border-outline-variant/30">
+            <div className="w-7 h-7 rounded-full bg-primary text-on-primary font-bold text-xs flex items-center justify-center shadow-xs">
               {userInitials}
             </div>
-            <span className="hidden md:inline font-label-md text-sm font-semibold text-on-surface">{userName}</span>
-          </Link>
-          <Link 
-            href="/login" 
-            className="text-xs font-medium text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-md transition-colors flex items-center gap-1"
-            title="Sair da Conta"
-          >
-            <span className="material-symbols-outlined text-[16px]">logout</span>
+            <span className="text-xs font-bold text-on-surface hidden sm:inline max-w-[140px] truncate" title={userName}>
+              {userName}
+            </span>
+          </div>
+
+          <Link href="/login" className="text-xs font-bold text-error hover:bg-error/10 p-2 rounded-lg transition-colors flex items-center gap-1" title="Sair do sistema">
+            <span className="material-symbols-outlined text-[18px]">logout</span>
             <span className="hidden md:inline">Sair</span>
           </Link>
         </div>
@@ -136,125 +204,33 @@ export default function DashboardLayout({
 
       {/* Main Content */}
       <main className="flex-1 pt-20 px-4 md:px-6 max-w-7xl mx-auto w-full md:pt-20">
-        {/* Card de Aviso LGPD / Versão Piloto & Canal de Dúvidas e Elogios */}
-        {!acceptedWarning ? (
-          <div className="mb-6 bg-amber-50 border-2 border-amber-300 rounded-2xl p-5 text-amber-950 shadow-md transition-all">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-800 flex items-center justify-center shrink-0 border border-amber-300">
-                  <span className="material-symbols-outlined text-xl font-bold">warning</span>
-                </div>
-                <div className="space-y-2 flex-1">
-                  <h3 className="font-bold text-sm md:text-base text-amber-950 flex items-center gap-2">
-                    ⚠️ Aviso Importante: Versão de Teste (Projeto Piloto)
-                  </h3>
-                  <p className="text-xs text-amber-950 leading-relaxed font-medium">
-                    Olá! Muito obrigado por ajudar a testar nosso sistema.
-                  </p>
-                  <p className="text-xs text-amber-900 leading-relaxed">
-                    Como esta é uma versão inicial (projeto piloto), pedimos que você <strong>não insira dados pessoais reais</strong> (como CPF, telefone pessoal, endereço de casa ou senhas que você usa em outros lugares).
-                  </p>
-                  <p className="text-xs text-amber-900 leading-relaxed">
-                    Para testar se tudo funciona, por favor, <strong>use apenas dados públicos ou inventados</strong> (como CNPJ de empresas reais, e-mails fictícios ou nomes de mentira). Fazemos isso para garantir a sua segurança e respeitar a Lei Geral de Proteção de Dados (<strong>LGPD</strong>). Fique à vontade para explorar e não esqueça de nos contar o que achou!
-                  </p>
-                </div>
-              </div>
-
-              {/* Seção de Dica Extra & Credenciais & E-mail de Contato */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
-                <div className="bg-amber-100/90 border border-amber-300/80 p-3 rounded-xl text-xs text-amber-950 space-y-1">
-                  <p className="font-bold text-amber-900 flex items-center gap-1">
-                    <span className="material-symbols-outlined text-sm text-amber-700">lightbulb</span>
-                    💡 Dica Extra &amp; Acesso de Teste:
-                  </p>
-                  <p className="text-[11px] leading-relaxed">
-                    Para cadastros/login, sugerimos usar um e-mail genérico como <code className="bg-amber-200/80 px-1 py-0.5 rounded font-bold text-amber-950">teste@teste.com</code> ou um e-mail temporário apenas para isso.
-                  </p>
-                  <div className="text-[11px] pt-1 flex flex-wrap gap-x-3 text-amber-950">
-                    <span><strong>E-mail Teste:</strong> <code className="bg-white/80 px-1.5 py-0.5 rounded border border-amber-300 font-bold">piloto@destrava.com.br</code></span>
-                    <span><strong>Senha:</strong> <code className="bg-white/80 px-1.5 py-0.5 rounded border border-amber-300 font-bold">123456</code></span>
-                  </div>
-                </div>
-
-                <div className="bg-white/90 border border-amber-300/90 p-3 rounded-xl text-xs text-amber-950 space-y-1 flex flex-col justify-between">
-                  <div>
-                    <p className="font-bold text-amber-900 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-sm text-amber-700">mail</span>
-                      📩 Dúvidas &amp; Elogios sobre o Sistema:
-                    </p>
-                    <p className="text-[11px] text-amber-800">
-                      Envie sugestões, dúvidas ou elogios diretamente ao nosso time:
-                    </p>
-                  </div>
-                  <a 
-                    href="mailto:duvidaselogios@infortsolucoes.com.br" 
-                    className="font-bold text-xs text-primary hover:underline flex items-center gap-1.5 bg-amber-50 px-2.5 py-1.5 rounded-lg border border-amber-200 w-fit mt-1"
-                  >
-                    <span className="material-symbols-outlined text-sm">send</span>
-                    duvidaselogios@infortsolucoes.com.br
-                  </a>
-                </div>
-              </div>
-
-              {/* BOTÕES INTERATIVOS DE ACEITE E NEGAR */}
-              <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2 border-t border-amber-200/80">
-                <button
-                  onClick={handleDenyAndExit}
-                  className="w-full sm:w-auto bg-white hover:bg-red-50 text-red-700 border border-red-300 font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
-                >
-                  <span className="material-symbols-outlined text-sm text-red-600">block</span>
-                  Negar e Sair do Sistema
-                </button>
-                <button
-                  onClick={() => setAcceptedWarning(true)}
-                  className="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
-                >
-                  <span className="material-symbols-outlined text-sm">check_circle</span>
-                  Aceitar e Continuar Testando
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* Badge Compacto de Confirmação quando Aceito */
-          <div className="mb-4 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2 text-xs text-emerald-800 flex items-center justify-between shadow-xs">
-            <div className="flex items-center gap-2 font-medium">
-              <span className="material-symbols-outlined text-emerald-600 text-base">verified</span>
-              <span><strong>Modo Piloto Ativo:</strong> Termos de teste aceitos. Contato: <a href="mailto:duvidaselogios@infortsolucoes.com.br" className="underline font-bold">duvidaselogios@infortsolucoes.com.br</a></span>
-            </div>
-            <button 
-              onClick={() => setAcceptedWarning(false)} 
-              className="text-[11px] font-bold text-emerald-700 hover:underline"
-            >
-              Reexibir Aviso Completo
-            </button>
-          </div>
-        )}
-
         {children}
+
+        {/* Componente Universal de Feedback e Comentários do Módulo */}
+        <PageFeedbackWidget />
       </main>
 
-      {/* BottomNavBar (Mobile) */}
-      <nav className="bg-surface-container-lowest dark:bg-inverse-surface shadow-[0_-4px_20px_rgba(31,41,55,0.05)] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-xs py-sm rounded-t-xl md:hidden border-t border-outline-variant/30">
+      {/* BottomNavBar (Mobile App Experience) */}
+      <nav className="bg-white/95 dark:bg-inverse-surface backdrop-blur-md shadow-[0_-4px_25px_rgba(0,0,0,0.1)] fixed bottom-0 left-0 w-full z-[99] flex justify-between items-center px-2 py-2 rounded-t-2xl md:hidden border-t border-outline-variant/30">
         {navItems.map((item) => {
           const isActive = isItemActive(item.href);
           
           return (
-            <Link href={item.href} key={item.href}>
+            <Link href={item.href} key={item.href} className="flex-1 min-w-0">
               <button 
-                className={`flex flex-col items-center justify-center rounded-xl px-2.5 py-1.5 transition-all duration-150 ${
+                className={`w-full flex flex-col items-center justify-center rounded-xl py-1.5 px-1 transition-all duration-150 ${
                   isActive 
-                    ? "bg-primary-container text-on-primary-container font-bold" 
-                    : "text-on-surface-variant hover:bg-surface-variant"
+                    ? "bg-blue-700 text-white font-bold shadow-sm" 
+                    : "text-on-surface-variant hover:bg-surface-variant/50"
                 }`}
               >
                 <span 
-                  className={`material-symbols-outlined text-xl ${isActive ? "text-on-primary-container" : "text-primary"}`}
+                  className={`material-symbols-outlined text-xl ${isActive ? "text-white" : "text-blue-700"}`}
                   style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
                 >
                   {item.icon}
                 </span>
-                <span className={`text-[10px] mt-0.5 ${isActive ? "text-on-primary-container font-bold" : ""}`}>
+                <span className={`text-[10px] mt-0.5 truncate w-full text-center ${isActive ? "text-white font-bold" : "text-on-surface-variant"}`}>
                   {item.label}
                 </span>
               </button>

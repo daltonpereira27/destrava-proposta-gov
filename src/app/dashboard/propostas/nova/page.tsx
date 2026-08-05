@@ -112,6 +112,8 @@ export default function NovaPropostaStep1Page() {
     localStorage.setItem("destrava_active_proposal_general", JSON.stringify(generalData));
   };
 
+  const formRef = React.useRef<HTMLFormElement>(null);
+
   // Aplica preset de exemplo de licitação antiga
   const handleApplyPreset = (preset: typeof samplePresets[0]) => {
     setNumPregao(preset.pregao);
@@ -145,7 +147,12 @@ export default function NovaPropostaStep1Page() {
       precoTotalProposta,
     }));
 
-    setPdfSuccessMessage(`⚡ Preset "${preset.title}" carregado com sucesso! Dados gerais e itens pré-preenchidos.`);
+    setPdfSuccessMessage(`✅ Dados do modelo "${preset.title}" carregados com sucesso! Role a tela ou veja o formulário abaixo.`);
+
+    // Rolagem suave para o formulário (puxar o usuário para baixo)
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
   };
 
   // Simulação de leitura OCR do Edital em PDF
@@ -324,7 +331,7 @@ export default function NovaPropostaStep1Page() {
       </div>
 
       {/* SEÇÃO 2: Formulário de Dados Gerais do Pregão */}
-      <form onSubmit={handleNextStep} className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-6">
+      <form ref={formRef} onSubmit={handleNextStep} className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-6 scroll-mt-24">
         <h2 className="text-base font-bold text-on-surface mb-4 pb-3 border-b border-outline-variant/30 flex items-center gap-2">
           <span className="material-symbols-outlined text-primary">edit_document</span>
           Dados Gerais da Licitação

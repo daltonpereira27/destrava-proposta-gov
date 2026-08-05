@@ -237,7 +237,7 @@ export default function NovaPropostaItensPage() {
 
       {/* SEÇÃO 1: Tabela Dinâmica de Itens */}
       <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-6 mb-8">
-        <div className="flex justify-between items-center mb-4 pb-3 border-b border-outline-variant/30">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-outline-variant/30">
           <div>
             <h2 className="text-base font-bold text-on-surface flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">inventory_2</span>
@@ -250,7 +250,7 @@ export default function NovaPropostaItensPage() {
 
           <button
             onClick={handleAddItem}
-            className="flex items-center gap-1.5 text-xs font-bold text-on-primary bg-primary hover:opacity-90 transition-all px-4 py-2.5 rounded-lg shadow-sm cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-1.5 text-xs font-bold text-on-primary bg-primary hover:opacity-90 transition-all px-4 py-2.5 rounded-lg shadow-sm cursor-pointer shrink-0"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Adicionar Item
@@ -494,19 +494,19 @@ export default function NovaPropostaItensPage() {
       )}
 
       {/* SEÇÃO 3: Botões de Navegação do Formulário */}
-      <div className="flex justify-between items-center pt-4 border-t border-outline-variant/30">
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 pt-4 border-t border-outline-variant/30">
         <button
           onClick={handleBack}
-          className="font-semibold text-sm text-primary border border-primary px-6 py-3 rounded-lg hover:bg-primary/10 transition-colors flex items-center gap-2 cursor-pointer"
+          className="w-full sm:w-auto font-semibold text-sm text-primary border border-primary px-6 py-3 rounded-lg hover:bg-primary/10 transition-colors flex items-center justify-center gap-2 cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">arrow_back</span>
           Voltar (Passo 1)
         </button>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <button
             onClick={handleSaveDraft}
-            className="font-semibold text-sm text-primary bg-primary/10 hover:bg-primary/20 px-5 py-3 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto font-semibold text-sm text-primary bg-primary/10 hover:bg-primary/20 px-5 py-3 rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             <span className="material-symbols-outlined text-[18px]">save</span>
             Salvar Rascunho
@@ -514,7 +514,7 @@ export default function NovaPropostaItensPage() {
           
           <button
             onClick={handleNext}
-            className="font-semibold text-sm text-on-primary bg-primary hover:opacity-90 px-6 py-3 rounded-lg shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto font-semibold text-sm text-on-primary bg-primary hover:opacity-90 px-6 py-3 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             Avançar para Prévia dos Itens (Passo 3)
             <span className="material-symbols-outlined text-[18px]">arrow_forward</span>

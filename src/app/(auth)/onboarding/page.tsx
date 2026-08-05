@@ -11,6 +11,11 @@ export default function OnboardingPage() {
   const [found, setFound] = useState(false);
   const [error, setError] = useState("");
 
+  // Estado dos Dados do Responsável pela Empresa
+  const [nomeResponsavel, setNomeResponsavel] = useState("");
+  const [cpfResponsavel, setCpfResponsavel] = useState("");
+  const [cargoResponsavel, setCargoResponsavel] = useState("Sócio Administrador");
+
   // Estado inicial limpo (será preenchido pela Receita Federal)
   const [companyData, setCompanyData] = useState({
     razaoSocial: "",
@@ -76,14 +81,16 @@ export default function OnboardingPage() {
         const json = await res.json();
         const apiData = json.data || json;
         if (apiData) {
-          // Formata Natureza Jurídica se tiver código
           const natJur = apiData.codigo_natureza_juridica && apiData.natureza_juridica
             ? `${apiData.codigo_natureza_juridica} - ${apiData.natureza_juridica}`
             : (apiData.natureza_juridica || "");
 
+          const rSocial = apiData.razao_social || "";
+          const nFantasia = apiData.nome_fantasia || rSocial;
+
           setCompanyData({
-            razaoSocial: apiData.razao_social || "",
-            nomeFantasia: apiData.nome_fantasia || apiData.razao_social || "",
+            razaoSocial: rSocial,
+            nomeFantasia: nFantasia,
             naturezaJuridica: natJur,
             porte: apiData.porte || "ME - Microempresa",
             dataAbertura: formatDate(apiData.data_inicio_atividade || apiData.data_abertura || ""),
@@ -100,6 +107,12 @@ export default function OnboardingPage() {
             telefone: formatPhone(apiData.ddd_telefone_1 || apiData.telefone || ""),
             email: apiData.email || "",
           });
+
+          // Sugere nome do responsável com base na razão social se estiver vazio
+          if (!nomeResponsavel && rSocial) {
+            setNomeResponsavel(rSocial);
+          }
+
           setFound(true);
         }
       } else {
@@ -119,6 +132,31 @@ export default function OnboardingPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!nomeResponsavel.trim()) {
+      setError("Por favor, preencha o Nome do Responsável pela Empresa.");
+      return;
+    }
+
+    try {
+      // Salva responsável e empresa no localStorage
+      localStorage.setItem("destrava_user_person", JSON.stringify({
+        nomeCompleto: nomeResponsavel.trim(),
+        cpf: cpfResponsavel,
+        cargo: cargoResponsavel,
+      }));
+
+      localStorage.setItem("destrava_user_company", JSON.stringify({
+        cnpj,
+        ...companyData,
+      }));
+
+      // Notifica o sistema para atualização instantânea da saudação do dashboard
+      window.dispatchEvent(new Event("user_name_updated"));
+    } catch (e) {
+      console.error("Erro ao salvar cadastro no onboarding", e);
+    }
+
     router.push("/register");
   };
 
@@ -128,7 +166,7 @@ export default function OnboardingPage() {
         <div className="flex justify-between items-center w-full">
           <Link href="/login" className="flex items-center gap-xs text-primary hover:opacity-80 transition-opacity">
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>gavel</span>
-            <span className="font-headline-md text-headline-md-mobile font-bold tracking-tight">Destrava Proposta Gov</span>
+            <span className="font-headline-md text-headline-md-mobile font-bold tracking-tight">DESTRAVA PROPOSTA GOV</span>
           </Link>
           <div className="flex items-center gap-md">
             <Link href="/login" className="font-label-sm text-label-sm text-primary hover:underline flex items-center gap-1 font-semibold">
@@ -138,7 +176,7 @@ export default function OnboardingPage() {
         </div>
         <div className="w-full flex flex-col gap-xs">
           <div className="flex justify-between items-center w-full">
-            <span className="font-label-sm text-label-sm text-on-surface font-semibold">Passo 1 de 2: Cadastro da Empresa (Receita Federal)</span>
+            <span className="font-label-sm text-label-sm text-on-surface font-semibold">Passo 1 de 2: Cadastro da Empresa e Responsável (Receita Federal)</span>
             <span className="font-label-sm text-label-sm text-on-surface-variant font-semibold">Passo 1 de 2</span>
           </div>
           <div className="w-full bg-surface-variant h-2 rounded-full overflow-hidden">
@@ -148,32 +186,15 @@ export default function OnboardingPage() {
       </header>
 
       <main className="flex-1 pt-[116px] px-md pb-lg flex flex-col min-h-screen">
-        <div className="bg-surface-container-lowest rounded-xl p-md shadow-[0_4px_20px_rgba(31,41,55,0.05)] border border-outline-variant/20 flex-1 flex flex-col max-w-[550px] w-full mx-auto">
-          <div className="mb-md">
+        <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_4px_20px_rgba(31,41,55,0.05)] border border-outline-variant/30 flex-1 flex flex-col max-w-[580px] w-full mx-auto my-4">
+          <div className="mb-4">
             <h1 className="font-headline-md text-headline-md-mobile text-on-surface mb-xs font-bold">1º Passo: Cadastro da Empresa (CNPJ)</h1>
             <p className="font-body-sm text-body-sm text-on-surface-variant">Informe o CNPJ da sua empresa para buscarmos os dados oficiais da Receita Federal em tempo real.</p>
           </div>
 
-          {/* Card de Aviso LGPD / Versão de Teste */}
-          <div className="mb-4 bg-amber-50 border-2 border-amber-300 rounded-xl p-4 text-xs text-amber-950 text-left space-y-2 shadow-sm">
-            <div className="flex items-center gap-2 font-bold text-amber-900 text-xs">
-              <span className="material-symbols-outlined text-amber-600 text-base">warning</span>
-              ⚠️ Aviso Importante: Versão de Teste (Piloto)
-            </div>
-            <p className="text-[11px] leading-relaxed text-amber-900">
-              Olá! Muito obrigado por ajudar a testar nosso sistema. Por ser uma versão piloto, <strong>não insira dados pessoais reais</strong> (como CPF, telefone pessoal, endereço de casa ou senhas pessoais).
-            </p>
-            <p className="text-[11px] leading-relaxed text-amber-900">
-              Para testar se tudo funciona, por favor, use apenas <strong>dados públicos ou inventados</strong> (como CNPJ de empresas reais, e-mails fictícios ou nomes de mentira) em conformidade com a <strong>LGPD</strong>. Fique à vontade para explorar!
-            </p>
-            <div className="bg-amber-100/80 p-2.5 rounded-lg text-[11px] text-amber-900 font-medium">
-              💡 <strong>Dica extra:</strong> Para fazer testes de cadastro e login, use e-mails genéricos como <code className="bg-amber-200/70 px-1 py-0.5 rounded text-amber-950 font-bold">teste@teste.com</code> ou crie um e-mail temporário apenas para isso.
-            </div>
-          </div>
-
           <form onSubmit={handleSubmit} className="flex flex-col gap-md flex-1">
             {error && (
-              <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 font-medium border border-red-200">
+              <div className="rounded-xl bg-red-50 p-3 text-sm text-red-600 font-medium border border-red-200">
                 {error}
               </div>
             )}
@@ -200,7 +221,7 @@ export default function OnboardingPage() {
               
               {!found && (
                 <button 
-                  className="mt-2 w-full bg-[#1e3a8a] text-on-primary font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 font-semibold" 
+                  className="mt-2 w-full bg-[#1e3a8a] text-on-primary font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 font-semibold cursor-pointer" 
                   type="button"
                   onClick={handleSearchCnpj}
                   disabled={loading}
@@ -215,6 +236,59 @@ export default function OnboardingPage() {
                 <div className="bg-[#e6f4ea] border border-[#34a853]/30 rounded-lg p-3 flex items-start gap-2 mt-1">
                   <span className="material-symbols-outlined text-[#34a853]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                   <span className="font-body-sm text-[#137333] font-medium">CNPJ Ativo e Validado na Receita Federal! Revise os dados abaixo.</span>
+                </div>
+
+                {/* NOVO CAMPO: DADOS DO RESPONSÁVEL DA EMPRESA */}
+                <div className="bg-blue-50/80 border-2 border-blue-300 rounded-xl p-4 space-y-3 mt-2">
+                  <div className="flex items-center gap-2 text-blue-900 font-extrabold text-xs uppercase tracking-wider">
+                    <span className="material-symbols-outlined text-blue-700 text-lg">badge</span>
+                    <span>Dados do Responsável pela Empresa (Para o Dashboard)</span>
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-bold text-blue-950" htmlFor="nome_responsavel">
+                      Nome Completo do Responsável *
+                    </label>
+                    <input
+                      id="nome_responsavel"
+                      type="text"
+                      required
+                      placeholder="Ex: Dalton Pereira"
+                      value={nomeResponsavel}
+                      onChange={(e) => setNomeResponsavel(e.target.value)}
+                      className="w-full h-11 px-3 border border-blue-300 rounded-lg bg-white text-on-surface font-bold text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                    <span className="text-[10px] text-blue-800 font-medium">Este é o nome que aparecerá no topo e na saudação do Dashboard.</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs font-bold text-blue-950" htmlFor="cpf_responsavel">
+                        CPF do Responsável
+                      </label>
+                      <input
+                        id="cpf_responsavel"
+                        type="text"
+                        placeholder="000.000.000-00"
+                        value={cpfResponsavel}
+                        onChange={(e) => setCpfResponsavel(e.target.value)}
+                        className="w-full h-10 px-3 border border-blue-300 rounded-lg bg-white text-on-surface font-medium text-xs focus:outline-none"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs font-bold text-blue-950" htmlFor="cargo_responsavel">
+                        Cargo / Função
+                      </label>
+                      <input
+                        id="cargo_responsavel"
+                        type="text"
+                        placeholder="Ex: Sócio Administrador"
+                        value={cargoResponsavel}
+                        onChange={(e) => setCargoResponsavel(e.target.value)}
+                        className="w-full h-10 px-3 border border-blue-300 rounded-lg bg-white text-on-surface font-medium text-xs focus:outline-none"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 {companyData.porte && (
@@ -388,7 +462,7 @@ export default function OnboardingPage() {
                 <div className="mt-auto pt-lg flex flex-col gap-3">
                   <div className="flex gap-md">
                     <button 
-                      className="flex-1 bg-surface-container text-on-surface font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-variant active:scale-[0.98] transition-all border border-outline-variant/50 font-medium" 
+                      className="flex-1 bg-surface-container text-on-surface font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-variant active:scale-[0.98] transition-all border border-outline-variant/50 font-medium cursor-pointer" 
                       type="button"
                       onClick={() => setFound(false)}
                     >
@@ -396,10 +470,10 @@ export default function OnboardingPage() {
                       Refazer Busca
                     </button>
                     <button 
-                      className="flex-1 bg-[#1e3a8a] text-on-primary font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all font-semibold" 
+                      className="flex-1 bg-[#1e3a8a] text-on-primary font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all font-semibold cursor-pointer shadow-md" 
                       type="submit"
                     >
-                      Avançar para Dados Pessoais
+                      Avançar para Criar Conta
                       <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>arrow_forward</span>
                     </button>
                   </div>
